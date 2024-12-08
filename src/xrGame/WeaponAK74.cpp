@@ -129,6 +129,10 @@ void CWeaponAK74::script_register	(lua_State *L)
 			.def("SetHitImpulse", &CWeapon::SetHitImpulse)
 			.def("SetFireDistance", &CWeapon::SetFireDistance)
 
+			// momopate
+			.def("GetZoomRotateTime", &CWeapon::GetZoomRotateTime)
+			.def("SetZoomRotateTime", &CWeapon::SetZoomRotateTime)
+
 			// demonized: World model on stalkers adjustments
 			.def("Set_mOffset", &CWeapon::set_mOffset)
 			.def("Set_mStrapOffset", &CWeapon::set_mStrapOffset)

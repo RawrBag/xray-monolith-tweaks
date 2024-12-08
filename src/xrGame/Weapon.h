@@ -971,6 +971,11 @@ public:
 	{
 		m_first_bullet_controller.set_fire_dispertion(val);
 	};
+
+	// momopate
+	float GetZoomRotateTime() { return m_zoom_params.m_fZoomRotateTime; }
+	virtual void SetZoomRotateTime(float val) { m_zoom_params.m_fZoomRotateTime = val; }
+
 protected:
 	int iAmmoElapsed; // ammo in magazine, currently
 	int iMagazineSize; // size (in bullets) of magazine
@@ -995,6 +1000,7 @@ public:
 	CWeaponAmmo* m_pCurrentAmmo;
 	u8 m_ammoType;
 	bool m_bHasTracers;
+	bool m_bSilencedTracers;
 	u8 m_u8TracerColorID;
 	u8 m_set_next_ammoType_on_reload;
 	// Multitype ammo support
@@ -1002,6 +1008,8 @@ public:
 	CCartridge m_DefaultCartridge;
 	CCartridge m_lastCartridge;
 	float m_fCurrentCartirdgeDisp;
+
+	virtual bool GetSilencedTracers() { return m_bSilencedTracers; }
 
 	bool unlimited_ammo();
 	IC bool can_be_strapped() const
