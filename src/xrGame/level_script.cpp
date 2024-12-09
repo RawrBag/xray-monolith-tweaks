@@ -967,6 +967,12 @@ float get_weather_value_numric(LPCSTR name)
 		return E.volumetric_intensity_factor;
 	else if (0 == xr_strcmp(name, "volumetric_distance_factor"))
 		return E.volumetric_distance_factor;
+	else if (0 == xr_strcmp(name, "bloom_threshold"))
+		return E.bloom_threshold;
+	else if (0 == xr_strcmp(name, "bloom_exposure"))
+		return E.bloom_exposure;
+	else if (0 == xr_strcmp(name, "bloom_sky_intensity"))
+		return E.bloom_sky_intensity;
 
 	return (0);
 }
@@ -1017,6 +1023,12 @@ void set_weather_value_numric(LPCSTR name, float val)
 		E.volumetric_intensity_factor = val;
 	else if (0 == xr_strcmp(name, "volumetric_distance_factor"))
 		E.volumetric_distance_factor = val;
+	else if (0 == xr_strcmp(name, "bloom_threshold"))
+		E.bloom_threshold = clampr(val, 1.0f, 10.0f);
+	else if (0 == xr_strcmp(name, "bloom_exposure"))
+		E.bloom_exposure = val;
+	else if (0 == xr_strcmp(name, "bloom_sky_intensity"))
+		E.bloom_sky_intensity = val;
 	else
 		Msg("~xrGame\level_script.cpp (set_weather_value_numric) | [%s] is not a valid numric weather parameter to set", name);
 }

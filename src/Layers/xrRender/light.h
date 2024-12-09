@@ -34,6 +34,14 @@ public:
 	vis_data hom;
 	u32 frame_render;
 
+	int omnipart_num;
+	int sss_id;
+	int sss_refresh;
+	s8 sss_priority;
+	light* omipart_parent;
+	float distance;
+	float distance_lpos;
+
 	float m_volumetric_quality;
 	float m_volumetric_intensity;
 	float m_volumetric_distance;

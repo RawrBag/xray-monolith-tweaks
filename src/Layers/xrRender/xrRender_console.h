@@ -3,6 +3,17 @@
 #pragma once
 
 // Common
+extern ECORE_API Fvector4 ps_ssfx_rain_drops_setup;
+extern ECORE_API int ps_ssfx_terrain_grass_align;
+extern ECORE_API int ps_ssfx_terrain_pom_refine;
+extern ECORE_API int ps_ssfx_pom_refine;
+extern ECORE_API int ps_ssfx_terrain_grass_align;
+extern ECORE_API float ps_ssfx_terrain_grass_slope;
+extern ECORE_API int ps_ssfx_bloom_use_presets;
+extern ECORE_API Fvector4 ps_ssfx_bloom_2;
+extern ECORE_API Fvector4 ps_ssfx_sss_quality;
+extern ECORE_API Fvector4 ps_ssfx_sss;
+
 extern ECORE_API int ps_ssfx_il_quality;
 extern ECORE_API int ps_ssfx_ao_quality;
 extern ECORE_API Fvector3 ps_ssfx_water_quality;

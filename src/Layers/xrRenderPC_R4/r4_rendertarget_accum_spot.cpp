@@ -169,6 +169,11 @@ void CRenderTarget::accum_spot(light* L)
 		RCache.set_ca("m_lmap", 0, m_Lmap._11, m_Lmap._21, m_Lmap._31, m_Lmap._41);
 		RCache.set_ca("m_lmap", 1, m_Lmap._12, m_Lmap._22, m_Lmap._32, m_Lmap._42);
 
+		if (!Device.m_SecondViewport.IsSVPFrame())
+			RCache.set_c("sss_id", L->sss_id);
+		else
+			RCache.set_c("sss_id", -1);
+
 		// Fetch4 : enable
 		//		if (RImplementation.o.HW_smap_FETCH4)	{
 		//. we hacked the shader to force smap on S0
@@ -283,14 +288,27 @@ void CRenderTarget::accum_volumetric(light* L)
 	//if (L->flags.type != IRender_Light::SPOT) return;
 	if (!L->flags.bVolumetric) return;
 	
-	/*float w = float(Device.dwWidth);
-	float h = float(Device.dwHeight);
+	if (!RImplementation.o.ssfx_volumetric)
+	{
+		phase_vol_accumulator();
+	}
+	else
+	{
+		if (!m_bHasActiveVolumetric_spot)
+		{
+			m_bHasActiveVolumetric_spot = true;
 
-	if (RImplementation.o.ssfx_volumetric)
-		set_viewport_size(HW.pContext, w / ps_ssfx_volumetric.w, h / ps_ssfx_volumetric.w);*/
+			FLOAT ColorRGBA[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+			HW.pContext->ClearRenderTargetView(rt_ssfx_volumetric->pRT, ColorRGBA);
+		}
 
-	phase_vol_accumulator();
+		u_setrt(rt_ssfx_volumetric, NULL, NULL, NULL);
 
+		RCache.set_Stencil(FALSE);
+		RCache.set_CullMode(CULL_NONE);
+		RCache.set_ColorWriteEnable();
+	}
+	/*
 	ref_shader shader;
 	ref_shader* shader_msaa;
 
@@ -301,7 +319,7 @@ void CRenderTarget::accum_volumetric(light* L)
 		shader = s_accum_volume;
 		shader_msaa = s_accum_volume_msaa;
 	}
-
+	*/
 	// *** assume accumulator setted up ***
 	// *****************************	Mask by stencil		*************************************
 	BOOL bIntersect = FALSE; //enable_scissor(L);
@@ -524,7 +542,7 @@ void CRenderTarget::accum_volumetric(light* L)
 		}
 
 
-		RCache.set_Element(shader->E[0]);
+		RCache.set_Element(s_accum_volume->E[0]);
 
 		// Constants
 		float att_R = L->m_volumetric_distance * L->range * .95f;

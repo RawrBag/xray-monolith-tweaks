@@ -68,6 +68,8 @@ public:
 		u32 ssfx_ao : 1;
 		u32 ssfx_il : 1;
 		u32 ssfx_core : 1;
+		u32 ssfx_bloom : 1;
+		u32 ssfx_sss : 1;
 
 		u32 bug : 1;
 
