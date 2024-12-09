@@ -184,6 +184,9 @@ How to compile exes:
 6. For successful compilation, **the latest build tools with MFC and ATL libraries is required**
 
 ## Changelog
+**2024.12.09**
+* SSS 22 Update
+
 **2024.11.30**
 * Moved `_g.script` patches to separate script and added it into `script.ltx` load
 * RavenAscendant: alife_clone_weapon fix
