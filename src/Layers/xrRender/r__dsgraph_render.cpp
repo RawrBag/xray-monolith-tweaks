@@ -83,6 +83,83 @@ void __fastcall sorted_L1(mapSorted_Node* N)
 	V->Render(calcLOD(N->key, V->vis.sphere.R));
 }
 
+void __fastcall water_node_ssr(mapSorted_Node* N)
+{
+#ifdef USE_DX11
+	VERIFY(N);
+	dxRender_Visual* V = N->val.pVisual;
+	VERIFY(V);
+
+	RCache.set_Shader(RImplementation.Target->s_ssfx_water_ssr);
+
+	RCache.set_xform_world(N->val.Matrix);
+	RImplementation.apply_object(N->val.pObject);
+	RImplementation.apply_lmaterial();
+
+	RCache.set_c("cam_pos", RImplementation.Target->Position_previous.x, RImplementation.Target->Position_previous.y, RImplementation.Target->Position_previous.z, 0.0f);
+
+	// Previous matrix data
+	RCache.set_c("m_previous", N->val.PrevMatrix);
+	N->val.PrevMatrix.set(RCache.xforms.m_wvp);
+
+	V->Render(calcLOD(N->key, V->vis.sphere.R));
+#endif
+}
+
+void __fastcall water_node(mapSorted_Node* N)
+{
+	VERIFY(N);
+	dxRender_Visual* V = N->val.pVisual;
+	VERIFY(V);
+
+#ifdef USE_DX11
+	if (RImplementation.o.ssfx_water)
+	{
+		RCache.set_Shader(RImplementation.Target->s_ssfx_water);
+	}
+#endif
+
+	RCache.set_xform_world(N->val.Matrix);
+	RImplementation.apply_object(N->val.pObject);
+	RImplementation.apply_lmaterial();
+
+	// Wind settings
+	float WindDir = g_pGamePersistent->Environment().CurrentEnv->wind_direction;
+	float WindVel = g_pGamePersistent->Environment().CurrentEnv->wind_velocity;
+	RCache.set_c("wind_setup", WindDir, WindVel, 0, 0);
+
+	V->Render(calcLOD(N->key, V->vis.sphere.R));
+}
+
+void __fastcall hud_node(mapSorted_Node* N)
+{
+	VERIFY(N);
+	dxRender_Visual* V = N->val.pVisual;
+	VERIFY(V && V->shader._get());
+	RCache.set_xform_world(N->val.Matrix);
+
+#ifdef USE_DX11
+
+	if (N->val.se->passes[0]->ps->hud_disabled)
+		return;
+
+	int skinning = N->val.se->passes[0]->vs->skinning;
+	RCache.set_Shader(RImplementation.Target->s_ssfx_hud[skinning]);
+
+	RImplementation.Target->Matrix_HUD_previous.set(N->val.PrevMatrix);
+	N->val.PrevMatrix.set(RCache.xforms.m_wvp);
+
+	RImplementation.Target->RVelocity = true;
+
+#endif
+
+	V->Render(calcLOD(N->key, V->vis.sphere.R));
+
+#ifdef USE_DX11
+	RImplementation.Target->RVelocity = false;
+#endif
+}
+
 IC bool cmp_vs_nrm(mapNormalVS::TNode* N1, mapNormalVS::TNode* N2)
 {
 	return (N1->val.ssa > N2->val.ssa);
@@ -499,7 +576,7 @@ void R_dsgraph_structure::r_dsgraph_render_graph(u32 _priority, bool _clear)
 
 //////////////////////////////////////////////////////////////////////////
 // HUD render
-void R_dsgraph_structure::r_dsgraph_render_hud()
+void R_dsgraph_structure::r_dsgraph_render_hud(bool NoPS)
 {
 	//PIX_EVENT(r_dsgraph_render_hud);
 
@@ -518,8 +595,16 @@ void R_dsgraph_structure::r_dsgraph_render_hud()
 
 	// Rendering
 	rmNear();
-	mapHUD.traverseLR(sorted_L1);
-	mapHUD.clear();
+	if (!NoPS)
+	{
+		mapHUD.traverseLR(sorted_L1);
+		mapHUD.clear();
+	}
+	else
+	{
+		HUDMask.traverseLR(hud_node);
+		HUDMask.clear();
+	}
 
 #if	RENDER==R_R1
 	if (g_hud && g_hud->RenderActiveItemUIQuery())
@@ -623,12 +708,13 @@ void R_dsgraph_structure::r_dsgraph_render_sorted()
 
 //////////////////////////////////////////////////////////////////////////
 // strict-sorted render
-void R_dsgraph_structure::r_dsgraph_render_emissive()
+void R_dsgraph_structure::r_dsgraph_render_emissive(bool clear, bool renderHUD)
 {
 #if	RENDER!=R_R1
 	// Sorted (back to front)
 	mapEmissive.traverseLR(sorted_L1);
-	mapEmissive.clear();
+	if (clear)
+		mapEmissive.clear();
 
 	// Change projection
 	Fmatrix Pold = Device.mProject;
@@ -645,7 +731,12 @@ void R_dsgraph_structure::r_dsgraph_render_emissive()
 	rmNear();
 	// Sorted (back to front)
 	mapHUDEmissive.traverseLR(sorted_L1);
-	mapHUDEmissive.clear();
+	
+	if (clear)
+		mapHUDEmissive.clear();
+
+	if (renderHUD)
+		mapHUDSorted.traverseRL(sorted_L1);
 
 	rmNormal();
 
@@ -654,6 +745,17 @@ void R_dsgraph_structure::r_dsgraph_render_emissive()
 	Device.mFullTransform = FTold;
 	RCache.set_xform_project(Device.mProject);
 #endif
+}
+
+void R_dsgraph_structure::r_dsgraph_render_water_ssr()
+{
+	mapWater.traverseLR(water_node_ssr);
+}
+
+void R_dsgraph_structure::r_dsgraph_render_water()
+{
+	mapWater.traverseLR(water_node);
+	mapWater.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////

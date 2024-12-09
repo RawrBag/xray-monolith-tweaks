@@ -196,6 +196,10 @@ public:
 	float m_fTreeAmplitudeIntensity;
 #endif
 
+	float bloom_threshold;
+	float bloom_exposure;
+	float bloom_sky_intensity;
+
 	// int lens_flare_id;
 	// int tb_id;
 	shared_str lens_flare_id;
@@ -297,6 +301,8 @@ public:
 	float wind_gust_factor;
 
 	float wetness_factor;
+
+	Fvector4 wind_anim;
 
 	// wind blast params
 	float wind_blast_strength;
