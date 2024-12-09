@@ -64,40 +64,55 @@ void CRenderTarget::phase_accumulator()
 
 void CRenderTarget::phase_vol_accumulator()
 {
-	// TODO: there is a bug in this function when MSAA is enabled, if you run with the D3D debug layer enabled, you'll get this error:
-	// ID3D11DeviceContext::OMSetRenderTargets: The RenderTargetView at slot 0 is not compatible with the DepthStencilView. DepthStencilViews may only be used with RenderTargetViews if the effective dimensions of the Views are equal, as well as the Resource types, multisample count, and multisample quality. The RenderTargetView at slot 0 has (w:2560,h:1440,as:1), while the Resource is a Texture2D with (mc:4,mq:4294967295). The DepthStencilView has (w:2560,h:1440,as:1), while the Resource is a Texture2D with (mc:1,mq:0).
-	// this seems to be because the pBaseZB target is always (SampleCount, SampleQuality) = (1, 0) (see dx10HW.cpp) but the
-	// `rt_Generic_2` render target is a multisampled rendertarget
-	// Not sure how to fix it correctly, if it doesn't need a depth buffer then just pass NULL, if it does
-	// we probably need to create a multisampled depth target (e.g. `rt_Generic_2_zb`)
-	//
-	// The best way I've found to see this happen is to launch the DX11 exe with `--dxgi-dbg` to enable the debug layer,
-	// then launch the game in RenderDoc with `Enable API Validation` and `Collect Callstacks` enabled, take a capture
-	// then go to `Tools > Load Symbols` to load the callstack symbols. In the bottom left of the main RenderDoc window
-	// there's a little status message that you can click on to see all the debug layer errors/warnings that lets you jump
-	// directly to the render event where the error occurred.
-	//
-	// This will let you go to the precise render event that caused the debug layer to log an error, and let you see the
-	// callstack where the Render() call occurred
-
-	if (!m_bHasActiveVolumetric)
+	if (RImplementation.o.ssfx_volumetric)
 	{
-		m_bHasActiveVolumetric = true;
-		if (!RImplementation.o.dx10_msaa)
-			u_setrt(rt_Generic_2, NULL,NULL, RImplementation.o.ssfx_volumetric ? NULL : HW.pBaseZB);
-		else
-			u_setrt(rt_Generic_2, NULL,NULL, RImplementation.o.ssfx_volumetric ? NULL : HW.pBaseZB);
-		//u32		clr4clearVol				= color_rgba(0,0,0,0);	// 0x00
-		//CHK_DX	(HW.pDevice->Clear			( 0L, NULL, D3DCLEAR_TARGET, clr4clearVol, 1.0f, 0L));
-		FLOAT ColorRGBA[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-		HW.pContext->ClearRenderTargetView(rt_Generic_2->pRT, ColorRGBA);
+		// SSS does not require the stencil. ( This also fix the MSAA bug )
+		if (!m_bHasActiveVolumetric)
+		{
+			m_bHasActiveVolumetric = true;
+
+			FLOAT ColorRGBA[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+			HW.pContext->ClearRenderTargetView(rt_Generic_2->pRT, ColorRGBA);
+		}
+
+		u_setrt(rt_Generic_2, NULL, NULL, NULL);
 	}
 	else
 	{
-		if (!RImplementation.o.dx10_msaa)
-			u_setrt(rt_Generic_2, NULL,NULL, RImplementation.o.ssfx_volumetric ? NULL : HW.pBaseZB);
+		// TODO: there is a bug in this function when MSAA is enabled, if you run with the D3D debug layer enabled, you'll get this error:
+		// ID3D11DeviceContext::OMSetRenderTargets: The RenderTargetView at slot 0 is not compatible with the DepthStencilView. DepthStencilViews may only be used with RenderTargetViews if the effective dimensions of the Views are equal, as well as the Resource types, multisample count, and multisample quality. The RenderTargetView at slot 0 has (w:2560,h:1440,as:1), while the Resource is a Texture2D with (mc:4,mq:4294967295). The DepthStencilView has (w:2560,h:1440,as:1), while the Resource is a Texture2D with (mc:1,mq:0).
+		// this seems to be because the pBaseZB target is always (SampleCount, SampleQuality) = (1, 0) (see dx10HW.cpp) but the
+		// `rt_Generic_2` render target is a multisampled rendertarget
+		// Not sure how to fix it correctly, if it doesn't need a depth buffer then just pass NULL, if it does
+		// we probably need to create a multisampled depth target (e.g. `rt_Generic_2_zb`)
+		//
+		// The best way I've found to see this happen is to launch the DX11 exe with `--dxgi-dbg` to enable the debug layer,
+		// then launch the game in RenderDoc with `Enable API Validation` and `Collect Callstacks` enabled, take a capture
+		// then go to `Tools > Load Symbols` to load the callstack symbols. In the bottom left of the main RenderDoc window
+		// there's a little status message that you can click on to see all the debug layer errors/warnings that lets you jump
+		// directly to the render event where the error occurred.
+		//
+		// This will let you go to the precise render event that caused the debug layer to log an error, and let you see the
+		// callstack where the Render() call occurred
+		if (!m_bHasActiveVolumetric)
+		{
+			m_bHasActiveVolumetric = true;
+			if (!RImplementation.o.dx10_msaa)
+				u_setrt(rt_Generic_2, NULL, NULL, HW.pBaseZB);
+			else
+				u_setrt(rt_Generic_2, NULL, NULL, RImplementation.Target->rt_MSAADepth->pZRT);
+			//u32		clr4clearVol				= color_rgba(0,0,0,0);	// 0x00
+			//CHK_DX	(HW.pDevice->Clear			( 0L, NULL, D3DCLEAR_TARGET, clr4clearVol, 1.0f, 0L));
+			FLOAT ColorRGBA[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+			HW.pContext->ClearRenderTargetView(rt_Generic_2->pRT, ColorRGBA);
+		}
 		else
-			u_setrt(rt_Generic_2, NULL,NULL, RImplementation.o.ssfx_volumetric ? NULL : HW.pBaseZB);
+		{
+			if (!RImplementation.o.dx10_msaa)
+				u_setrt(rt_Generic_2, NULL, NULL, HW.pBaseZB);
+			else
+				u_setrt(rt_Generic_2, NULL, NULL, RImplementation.Target->rt_MSAADepth->pZRT);
+		}
 	}
 
 	RCache.set_Stencil(FALSE);

@@ -118,7 +118,7 @@ void __fastcall water_node(mapSorted_Node* N)
 		RCache.set_Shader(RImplementation.Target->s_ssfx_water);
 	}
 #endif
-	
+
 	RCache.set_xform_world(N->val.Matrix);
 	RImplementation.apply_object(N->val.pObject);
 	RImplementation.apply_lmaterial();
@@ -131,21 +131,21 @@ void __fastcall water_node(mapSorted_Node* N)
 	V->Render(calcLOD(N->key, V->vis.sphere.R));
 }
 
-void __fastcall hud_node(mapSorted_Node * N)
+void __fastcall hud_node(mapSorted_Node* N)
 {
 	VERIFY(N);
-	dxRender_Visual * V = N->val.pVisual;
+	dxRender_Visual* V = N->val.pVisual;
 	VERIFY(V && V->shader._get());
 	RCache.set_xform_world(N->val.Matrix);
 
 #ifdef USE_DX11
-	
+
 	if (N->val.se->passes[0]->ps->hud_disabled)
 		return;
-	
+
 	int skinning = N->val.se->passes[0]->vs->skinning;
 	RCache.set_Shader(RImplementation.Target->s_ssfx_hud[skinning]);
-	
+
 	RImplementation.Target->Matrix_HUD_previous.set(N->val.PrevMatrix);
 	N->val.PrevMatrix.set(RCache.xforms.m_wvp);
 
@@ -624,6 +624,7 @@ void R_dsgraph_structure::r_dsgraph_render_hud(bool NoPS)
 		rmNormal();
 	}
 
+
 	// Restore projection
 	Device.mProject = Pold;
 	Device.mFullTransform = FTold;
@@ -716,12 +717,13 @@ void R_dsgraph_structure::r_dsgraph_render_ScopeSorted()  //  Redotix99: for 3D 
 
 //////////////////////////////////////////////////////////////////////////
 // strict-sorted render
-void R_dsgraph_structure::r_dsgraph_render_emissive()
+void R_dsgraph_structure::r_dsgraph_render_emissive(bool clear, bool renderHUD)
 {
 #if	RENDER!=R_R1
 	// Sorted (back to front)
 	mapEmissive.traverseLR(sorted_L1);
-	mapEmissive.clear();
+	if (clear)
+		mapEmissive.clear();
 
 	// Change projection
 	Fmatrix Pold = Device.mProject;
@@ -738,7 +740,12 @@ void R_dsgraph_structure::r_dsgraph_render_emissive()
 	rmNear();
 	// Sorted (back to front)
 	mapHUDEmissive.traverseLR(sorted_L1);
-	mapHUDEmissive.clear();
+	
+	if (clear)
+		mapHUDEmissive.clear();
+
+	if (renderHUD)
+		mapHUDSorted.traverseRL(sorted_L1);
 
 	rmNormal();
 
