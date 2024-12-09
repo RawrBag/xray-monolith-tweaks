@@ -31,6 +31,21 @@ short QC(float v);
 //	return short(t&0xffff);
 //}
 
+float GoToValue(float& current, float go_to)
+{
+	float diff = abs(current - go_to);
+
+	float r_value = Device.fTimeDelta;
+
+	if (diff - r_value <= 0)
+	{
+		current = go_to;
+		return 0;
+	}
+
+	return current < go_to ? r_value : -r_value;
+}
+
 void CDetailManager::hw_Load_Shaders()
 {
 	// Create shader to access constant storage
@@ -113,6 +128,9 @@ void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave
 	static shared_str strPos("benders_pos");
 	static shared_str strGrassSetup("benders_setup");
 
+	static shared_str strExData("exdata");
+	static shared_str strGrassAlign("grass_align");
+
 	// Grass benders data
 	IGame_Persistent::grass_data& GData = g_pGamePersistent->grass_shader_data;
 	Fvector4 player_pos = { 0, 0, 0, 0 };
@@ -157,6 +175,7 @@ void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave
 				RCache.set_c(strWave, wave);
 				RCache.set_c(strDir2D, wind);
 				RCache.set_c(strXForm, Device.mFullTransform);
+				RCache.set_c(strGrassAlign, ps_ssfx_terrain_grass_align);
 
 				if (ps_ssfx_grass_interactive.y > 0)
 				{
@@ -182,6 +201,14 @@ void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave
 						}
 					}
 				}
+
+				Fvector4* c_ExData = 0;
+				{
+					void* pExtraData;
+					RCache.get_ConstantDirect(strExData, hw_BatchSize * sizeof(Fvector4), &pExtraData, 0, 0);
+					c_ExData = (Fvector4*)pExtraData;
+				}
+				VERIFY(c_ExData);
 
 				//ref_constant constArray = RCache.get_c(strArray);
 				//VERIFY(constArray);
@@ -213,6 +240,8 @@ void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave
 						SlotItem& Instance = **_iI;
 						u32 base = dwBatch * 4;
 
+						Instance.alpha += GoToValue(Instance.alpha, Instance.alpha_target);
+
 						float scale = Instance.scale_calculated;
 
 						// Sort of fade using the scale
@@ -222,7 +251,7 @@ void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave
 						else if (Instance.distance > fade_distance)
 							scale *= 1.0f - abs(Instance.distance - fade_distance) * 0.005f;
 
-						if (scale <= 0)
+						if (scale <= 0 || Instance.alpha <= 0)
 							break;
 
 						// Build matrix ( 3x4 matrix, last row - color )
@@ -240,6 +269,10 @@ void CDetailManager::hw_Render_dump(const Fvector4& consts, const Fvector4& wave
 						float h = Instance.c_hemi;
 						float s = Instance.c_sun;
 						c_storage[base + 3].set(s, s, s, h);
+
+						if (c_ExData)
+							c_ExData[dwBatch].set(Instance.normal.x, Instance.normal.y, Instance.normal.z, Instance.alpha);
+
 						//RCache.set_ca(&*constArray, base+3, s,				s,				s,				h		);
 						dwBatch ++;
 						if (dwBatch == hw_BatchSize)

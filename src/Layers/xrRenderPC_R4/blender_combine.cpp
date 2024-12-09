@@ -80,6 +80,7 @@ void CBlender_combine::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_noise_1", "shaders\\noise\\noise_tex");
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Sampler("smp_linear");
 		C.r_dx10Sampler("smp_nofilter");
@@ -105,6 +106,7 @@ void CBlender_combine::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_blur_8", r2_RT_blur_8);
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Texture("s_lut_atlas", "shaders\\lut_atlas");
 		C.r_dx10Texture("s_lens_dirt", "shaders\\lens_dirt");
@@ -133,6 +135,7 @@ void CBlender_combine::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_blur_8", r2_RT_blur_8);
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Texture("s_lut_atlas", "shaders\\lut_atlas");
 		C.r_dx10Texture("s_lens_dirt", "shaders\\lens_dirt");
@@ -162,6 +165,7 @@ void CBlender_combine::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_blur_8", r2_RT_blur_8);
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Texture("s_lut_atlas", "shaders\\lut_atlas");
 		C.r_dx10Texture("s_lens_dirt", "shaders\\lens_dirt");
@@ -260,6 +264,7 @@ void CBlender_combine_msaa::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_noise_1", "shaders\\noise\\noise_tex");
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Sampler("smp_linear");
 		C.r_dx10Sampler("smp_nofilter");
@@ -289,6 +294,7 @@ void CBlender_combine_msaa::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_noise_1", "shaders\\noise\\noise_tex");
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Sampler("smp_linear");
 		C.r_dx10Sampler("smp_nofilter");
@@ -313,6 +319,7 @@ void CBlender_combine_msaa::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_blur_8", r2_RT_blur_8);
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Texture("s_lut_atlas", "shaders\\lut_atlas");
 		C.r_dx10Texture("s_lens_dirt", "shaders\\lens_dirt");
@@ -342,6 +349,7 @@ void CBlender_combine_msaa::Compile(CBlender_Compile& C)
 		C.r_dx10Texture("s_blur_8", r2_RT_blur_8);
 
 		C.r_dx10Texture("s_hud_mask", r2_RT_ssfx_hud);
+		C.r_dx10Texture("s_ssfx_bloom", r2_RT_ssfx_bloom1);
 
 		C.r_dx10Texture("s_lut_atlas", "shaders\\lut_atlas");
 		C.r_dx10Texture("s_lens_dirt", "shaders\\lens_dirt");

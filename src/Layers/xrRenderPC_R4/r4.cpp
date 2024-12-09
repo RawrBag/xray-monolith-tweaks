@@ -483,8 +483,10 @@ void CRender::create()
 	o.ssfx_water = FS.exist(fn, "$game_shaders$", "r3\\ssfx_water", ".ps") ? 1 : 0;
 	o.ssfx_ao = FS.exist(fn, "$game_shaders$", "r3\\ssfx_ao", ".ps") ? 1 : 0;
 	o.ssfx_il = FS.exist(fn, "$game_shaders$", "r3\\ssfx_il", ".ps") ? 1 : 0;
+	o.ssfx_sss = FS.exist(fn, "$game_shaders$", "r3\\ssfx_sss", ".ps") ? 1 : 0;
+	o.ssfx_bloom = FS.exist(fn, "$game_shaders$", "r3\\ssfx_bloom", ".ps") ? 1 : 0;
 
-	Msg("- Supports SSS UPDATE 21");
+	Msg("- Supports SSS UPDATE 22");
 	Msg("- SSS CORE INSTALLED %i", o.ssfx_core);
 	Msg("- SSS HUD RAINDROPS SHADER INSTALLED %i", o.ssfx_hud_raindrops);
 	Msg("- SSS RAIN SHADER INSTALLED %i", o.ssfx_rain);
@@ -496,6 +498,8 @@ void CRender::create()
 	Msg("- SSS WATER SHADER INSTALLED %i", o.ssfx_water);
 	Msg("- SSS AO SHADER INSTALLED %i", o.ssfx_ao);
 	Msg("- SSS IL SHADER INSTALLED %i", o.ssfx_il);
+	Msg("- SSS SSS SHADER INSTALLED %i", o.ssfx_sss);
+	Msg("- SSS BLOOM SHADER INSTALLED %i", o.ssfx_bloom);
 
 	// constants
 	CResourceManager* RM = dxRenderDeviceRender::Instance().Resources;
@@ -1276,6 +1280,10 @@ HRESULT CRender::shader_compile(
 	char c_smaa_quality [32];
 	
 	// SSS preprocessor stuff
+	char c_ssfx_sss_dir_quality[32];
+	char c_ssfx_sss_omni_quality[32];
+	char c_ssfx_terrain_pom_refine[32];
+	char c_ssfx_pom_refine[32];
 	char c_ssfx_il[32];
 	char c_ssfx_ao[32];
 	char c_ssfx_water[32];
@@ -1805,6 +1813,34 @@ HRESULT CRender::shader_compile(
 	def_it++;
 	xr_strcat(sh_name, c_ssfx_ao);
 	len += xr_strlen(c_ssfx_ao);
+
+	xr_sprintf(c_ssfx_pom_refine, "%d", u8(min(max(ps_ssfx_pom_refine, 0), 1)));
+	defines[def_it].Name = "SSFX_POM_REFINE";
+	defines[def_it].Definition = c_ssfx_pom_refine;
+	def_it++;
+	xr_strcat(sh_name, c_ssfx_pom_refine);
+	len += xr_strlen(c_ssfx_pom_refine);
+
+	xr_sprintf(c_ssfx_terrain_pom_refine, "%d", u8(min(max(ps_ssfx_terrain_pom_refine, 0), 1)));
+	defines[def_it].Name = "SSFX_TERRA_POM_REFINE";
+	defines[def_it].Definition = c_ssfx_terrain_pom_refine;
+	def_it++;
+	xr_strcat(sh_name, c_ssfx_terrain_pom_refine);
+	len += xr_strlen(c_ssfx_terrain_pom_refine);
+
+	xr_sprintf(c_ssfx_sss_dir_quality, "%d", u8(min(max((int)ps_ssfx_sss_quality.x, 1), 24)));
+	defines[def_it].Name = "SSFX_SSS_DIR_QUALITY";
+	defines[def_it].Definition = c_ssfx_sss_dir_quality;
+	def_it++;
+	xr_strcat(sh_name, c_ssfx_sss_dir_quality);
+	len += xr_strlen(c_ssfx_sss_dir_quality);
+
+	xr_sprintf(c_ssfx_sss_omni_quality, "%d", u8(min(max((int)ps_ssfx_sss_quality.y, 1), 12)));
+	defines[def_it].Name = "SSFX_SSS_OMNI_QUALITY";
+	defines[def_it].Definition = c_ssfx_sss_omni_quality;
+	def_it++;
+	xr_strcat(sh_name, c_ssfx_sss_omni_quality);
+	len += xr_strlen(c_ssfx_sss_omni_quality);
 
 	defines[def_it].Name = "SSFX_MODEXE";
 	defines[def_it].Definition = "1";
