@@ -771,7 +771,7 @@ static class ssfx_wind_anim : public R_constant_setup
 {
 	virtual void setup(R_constant* C)
 	{
-		RCache.set_c(C, g_pGamePersistent->Environment().wind_anim.x, g_pGamePersistent->Environment().wind_anim.y, g_pGamePersistent->Environment().wind_anim.z, 0);
+		RCache.set_c(C, g_pGamePersistent->Environment().wind_anim);
 	}
 }    ssfx_wind_anim;
 
