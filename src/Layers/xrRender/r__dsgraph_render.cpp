@@ -99,8 +99,8 @@ void __fastcall water_node_ssr(mapSorted_Node* N)
 	RCache.set_c("cam_pos", RImplementation.Target->Position_previous.x, RImplementation.Target->Position_previous.y, RImplementation.Target->Position_previous.z, 0.0f);
 
 	// Previous matrix data
-	RCache.set_c("m_previous", N->val.PrevMatrix);
-	N->val.PrevMatrix.set(RCache.xforms.m_wvp);
+	RCache.set_c("m_current", RImplementation.Target->Matrix_current);
+	RCache.set_c("m_previous", RImplementation.Target->Matrix_previous);
 
 	V->Render(calcLOD(N->key, V->vis.sphere.R));
 #endif
