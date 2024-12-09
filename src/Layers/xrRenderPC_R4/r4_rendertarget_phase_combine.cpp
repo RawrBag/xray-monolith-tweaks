@@ -388,60 +388,6 @@ void CRenderTarget::phase_combine()
 	if (ssfx_PrevPos_Requiered)
 		HW.pContext->CopyResource(rt_ssfx_prevPos->pTexture->surface_get(), rt_Position->pTexture->surface_get());
 
-	if (RImplementation.o.ssfx_ssr && !Device.m_SecondViewport.IsSVPFrame())
-	{
-		ssfx_PrevPos_Requiered = true;
-		phase_ssfx_ssr(); // [SSFX] - New SSR Phase
-	}
-
-	// [SSFX] - Water SSR rendering
-	if (RImplementation.o.ssfx_water && !Device.m_SecondViewport.IsSVPFrame())
-	{
-		FLOAT ColorRGBA[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		HW.pContext->ClearRenderTargetView(rt_ssfx_temp->pRT, ColorRGBA);
-		HW.pContext->ClearRenderTargetView(rt_ssfx_temp2->pRT, ColorRGBA);
-
-		if (!RImplementation.o.dx10_msaa)
-			u_setrt(rt_ssfx_temp, 0, 0, 0);
-		else
-			u_setrt(rt_ssfx_temp, 0, 0, 0);
-
-		float w = float(Device.dwWidth);
-		float h = float(Device.dwHeight);
-
-		// Render Scale
-		set_viewport_size(HW.pContext, w / ps_ssfx_water.x, h / ps_ssfx_water.x);
-
-		// Render Water SSR
-		RCache.set_xform_world(Fidentity);
-		RImplementation.r_dsgraph_render_water_ssr();
-
-		// Restore Viewport
-		set_viewport_size(HW.pContext, w, h);
-
-		// Save Frame
-		HW.pContext->CopyResource(rt_ssfx_water->pTexture->surface_get(), rt_ssfx_temp->pTexture->surface_get());
-
-		// Water SSR Blur
-		phase_ssfx_water_blur();
-
-		// Water waves
-		phase_ssfx_water_waves();
-	}
-
-	if (!RImplementation.o.dx10_msaa)
-		u_setrt(rt_Generic_0, 0, 0, HW.pBaseZB);
-	else
-		u_setrt(rt_Generic_0_r, 0, 0, rt_MSAADepth->pZRT);
-
-	// Final water rendering ( All the code above can be omitted if the Water module isn't installed )
-	RCache.set_xform_world(Fidentity);
-	RImplementation.r_dsgraph_render_water();
-	g_pGamePersistent->Environment().RenderLast(); // rain/thunder-bolts
-
-	if (ssfx_PrevPos_Requiered)
-		HW.pContext->CopyResource(rt_ssfx_prevPos->pTexture->surface_get(), rt_Position->pTexture->surface_get());
-
 	// Forward rendering
 	{
 		PIX_EVENT(Forward_rendering);
