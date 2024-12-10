@@ -356,7 +356,7 @@ void CScriptGameObject::RestoreDefaultStartDialog()
 	pDialogManager->RestoreDefaultStartDialog();
 }
 
-void CScriptGameObject::SetActorPosition(Fvector pos, bool bskip_collision_correct)
+void CScriptGameObject::SetActorPosition(Fvector pos, bool bskip_collision_correct, bool bkeep_speed)
 {
 	CActor* actor = smart_cast<CActor*>(&object());
 	if (actor)
@@ -369,7 +369,8 @@ void CScriptGameObject::SetActorPosition(Fvector pos, bool bskip_collision_corre
 			if (actor->character_physics_support()->movement()->CharacterExist())
 			{
 				actor->character_physics_support()->movement()->SetPosition(F.c);
-				actor->character_physics_support()->movement()->SetVelocity(0.f, 0.f, 0.f);
+				if (!bkeep_speed)	// momopate: allow movespeed to be kept if bskip_collision_correct == true
+					actor->character_physics_support()->movement()->SetVelocity(0.f, 0.f, 0.f);
 			}
 		}
 		else
@@ -465,6 +466,19 @@ Fvector CScriptGameObject::GetMovementSpeed() const
 	}
 	//return actor->GetMovementSpeed();
 	return actor->character_physics_support()->movement()->GetVelocity();
+}
+
+// momopate: db.actor:set_movement_speed(vector vel)
+void CScriptGameObject::SetMovementSpeed(Fvector vel)
+{
+	CActor* actor = smart_cast<CActor*>(&object());
+	if (!actor)
+	{
+		ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError,
+		                                "ScriptGameObject : attempt to call SetMovementSpeed method for non-actor object");
+		return;
+	}
+	actor->character_physics_support()->movement()->SetVelocity(vel.x, vel.y, vel.z);
 }
 
 CHolderCustom* CScriptGameObject::get_current_holder()

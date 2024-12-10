@@ -1563,9 +1563,14 @@ void AddBullet(luabind::object t)
 		LPCSTR ammo_sect = luabind::object_cast<LPCSTR>(t["ammo_sect"]);
 		float air_resistance = luabind::object_cast<float>(t["air_resistance"]);
 
+		// momopate: add senderweapon id to the table as to not break most damage mods, defaults to sender
+		u16 senderweapon = sender;
+		if (luabind::object_cast<u16>(t["senderweapon"]))
+			senderweapon = luabind::object_cast<u16>(t["senderweapon"]);
+
 		CCartridge* _temp = xr_new<CCartridge>();
 		_temp->Load(ammo_sect, 0);
-		Level().BulletManager().AddBullet(pos, dir, speed, power, impulse, sender, sender, hit_type, max_dist, *_temp, air_resistance, true);
+		Level().BulletManager().AddBullet(pos, dir, speed, power, impulse, sender, senderweapon, hit_type, max_dist, *_temp, air_resistance, true);
 		delete_data(_temp);
 	} else {
 		Msg("!AddBullet(luabind::object t): argument is not a table");
