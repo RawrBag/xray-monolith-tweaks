@@ -184,6 +184,19 @@ How to compile exes:
 6. For successful compilation, **the latest build tools with MFC and ATL libraries is required**
 
 ## Changelog
+**2024.12.10**
+* momopate (https://github.com/themrdemonized/xray-monolith/pull/112):
+  * Added console commands:
+    * `fix_avelocity_spread` -> Bool; Fixes moving the camera not affecting accuracy.
+    * `apply_pdm_to_ads` -> Bool; Makes it so that PDM values from the weapon are properly applied when aiming down sights.
+    * `smooth_ads_transition` -> Bool; Makes it so that going in and out of ADS smoothly changes the accuracy bonus instead of changing only at full ADS.
+    * `allow_silencer_hide_tracer` -> Bool; Optionally disables silencers being able to hide tracers completely. (Defaults to true)
+  * Added `silenced_tracers` (bool) field to weapons sections. If the ammo type can be hidden when using a silenced weapon, setting this field to true makes the tracer visible again.
+  * Added `GetZoomRotateTime()` and `SetZoomRotateTime(float val)`.
+  * Added `senderweapon` to the table used for `level.add_bullet()` to improve compatibility with modding. Defaults to sender.
+  * Added `bkeep_speed` to `SetActorPosition()`.
+  * Added `SetMovementSpeed()`. Exported as `set_movement_speed(vector vel)` for scripting.
+
 **2024.12.09**
 * SSS 22 Update
 
