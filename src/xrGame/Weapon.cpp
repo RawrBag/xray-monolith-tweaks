@@ -753,6 +753,9 @@ void CWeapon::Load(LPCSTR section)
 	m_bHasTracers = !!READ_IF_EXISTS(pSettings, r_bool, section, "tracers", true);
 	m_u8TracerColorID = READ_IF_EXISTS(pSettings, r_u8, section, "tracers_color_ID", u8(-1));
 
+	// momopate
+	m_bSilencedTracers = READ_IF_EXISTS(pSettings, r_bool, section, "silenced_tracers", false);
+
 	string256 temp;
 	for (int i = egdNovice; i < egdCount; ++i)
 	{

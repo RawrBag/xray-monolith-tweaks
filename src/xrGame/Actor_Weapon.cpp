@@ -26,15 +26,32 @@ static const float VEL_A_MAX = 10.f;
 
 #define GetWeaponParam(pWeapon, func_name, def_value)	((pWeapon) ? (pWeapon->func_name) : def_value)
 
+BOOL g_fix_avelocity_spread = 0;
+BOOL g_apply_pdm_to_ads = 0;
+BOOL g_smooth_ads_transition = 0;
 //возвращает текуший разброс стрельбы (в радианах)с учетом движения
 float CActor::GetWeaponAccuracy() const
 {
 	CWeapon* W = smart_cast<CWeapon*>(inventory().ActiveItem());
-
-	if (IsZoomAimingMode() && W && !GetWeaponParam(W, IsRotatingToZoom(), false))
+	
+	// momopate: optionally make pdm values affect ads, have a smoother transition in and out of the aiming bonus
+	float disp_aim;
+	bool is_zooming = (W && ((g_smooth_ads_transition && GetWeaponParam(W, GetInertionAimFactor(), 1.0f) < 1.0f) || (!g_smooth_ads_transition && IsZoomAimingMode() && !GetWeaponParam(W, IsRotatingToZoom(), false))));
+	if (is_zooming)
 	{
-		return m_fDispAim;
+		if (!g_apply_pdm_to_ads)
+			return m_fDispAim;
+		else
+		{
+			if (!g_smooth_ads_transition)
+				disp_aim = m_fDispAim;
+			else
+				disp_aim = _lerp(m_fDispAim, 1.0f, GetWeaponParam(W, GetInertionAimFactor(), 1.0f));
+		}
 	}
+	else
+		disp_aim = 1.0;
+
 	float dispersion = m_fDispBase * GetWeaponParam(W, Get_PDM_Base(), 1.0f) *
 		GetWeaponParam(W, Get_Silencer_PDM_Base(), 1.0f) * GetWeaponParam(W, Get_Scope_PDM_Base(), 1.0f) *
 		GetWeaponParam(W, Get_Launcher_PDM_Base(), 1.0f);
@@ -43,8 +60,11 @@ float CActor::GetWeaponAccuracy() const
 	CEntity::SEntityState state;
 	if (g_State(state))
 	{
+		// momopate: fix moving the camera not affecting spread
+		float AVelocity = (g_fix_avelocity_spread) ? fCurAVelocity : state.fAVelocity;
+
 		//fAVelocity = angle velocity
-		dispersion *= (1.0f + (state.fAVelocity / VEL_A_MAX) * m_fDispVelFactor * GetWeaponParam(
+		dispersion *= (1.0f + (AVelocity / VEL_A_MAX) * m_fDispVelFactor * GetWeaponParam(
 				W, Get_PDM_Vel_F(), 1.0f) *
 			GetWeaponParam(W, Get_Silencer_PDM_Vel(), 1.0f) * GetWeaponParam(W, Get_Scope_PDM_Vel(), 1.0f) *
 			GetWeaponParam(W, Get_Launcher_PDM_Vel(), 1.0f));
@@ -77,7 +97,7 @@ float CActor::GetWeaponAccuracy() const
 	if (W && W->m_lastCartridge.param_s.buckShot > 1)
 		dispersion *= GetWeaponParam(W, Get_PDM_BuckShot(), 1.0f);
 
-	return dispersion;
+	return (dispersion * disp_aim);
 }
 
 

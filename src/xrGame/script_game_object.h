@@ -256,7 +256,7 @@ public:
 	void AddAction(const CScriptEntityAction* tpEntityAction, bool bHighPriority = false);
 	void ResetActionQueue();
 	// Actor only
-	void SetActorPosition(Fvector pos, bool bskip_collision_correct = false);
+	void SetActorPosition(Fvector pos, bool bskip_collision_correct = false, bool bkeep_speed = false);	// momopate: allow movespeed to be kept if bskip_collision_correct == true
 	void SetActorDirection(float dir);
 	void SetActorDirection(float dir, float pitch);
 	void SetActorDirection(float dir, float pitch, float roll);
@@ -265,6 +265,7 @@ public:
 	void DisableHitMarks(bool disable);
 	bool DisableHitMarks() const;
 	Fvector GetMovementSpeed() const;
+	void SetMovementSpeed(Fvector vel);		// momopate: db.actor:set_movement_speed(vector vel)
 
 	// CCustomMonster
 	bool CheckObjectVisibility(const CScriptGameObject* tpLuaGameObject);

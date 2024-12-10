@@ -329,6 +329,7 @@ class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject
 		.def("disable_hit_marks", (void (CScriptGameObject::*)(bool))&CScriptGameObject::DisableHitMarks)
 		.def("disable_hit_marks", (bool (CScriptGameObject::*)() const)&CScriptGameObject::DisableHitMarks)
 		.def("get_movement_speed", &CScriptGameObject::GetMovementSpeed)
+		.def("set_movement_speed", &CScriptGameObject::SetMovementSpeed)	// momopate: db.actor:set_momvement_speed(vector vel)
 
 		.def("set_npc_position", &CScriptGameObject::SetNpcPosition)
 

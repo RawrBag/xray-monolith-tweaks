@@ -43,6 +43,7 @@ SBullet::~SBullet()
 {
 }
 
+BOOL g_allow_silencer_hide_tracer = 1;
 u32 SBullet::bulletCount = 0;
 
 void SBullet::Init(const Fvector& position,
@@ -102,14 +103,14 @@ void SBullet::Init(const Fvector& position,
 	//-Alundaio
 
 	// demonized: hide tracer when weapon has silencer
-	if (!cartridge.param_s.tracer_silenced)		// momopate: Make it optional
+	if (!cartridge.param_s.tracer_silenced && g_allow_silencer_hide_tracer)		// momopate: Make it optional
 	{
 		CObject* g_obj = Level().Objects.net_Find(weapon_id);
 		if (g_obj) 
 		{
 			CWeapon* weapon = smart_cast<CWeapon*>(g_obj);
 			if (weapon && weapon->IsSilencerAttached())
-				flags.allow_tracer = false;
+				flags.allow_tracer = (weapon->GetSilencedTracers());	// momopate: customize per weapon
 		}
 	}
 
