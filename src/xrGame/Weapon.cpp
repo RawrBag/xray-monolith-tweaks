@@ -68,6 +68,11 @@ float CWeapon::SDS_Radius(bool alt) {
 		else
 		{
 			scope_tex_name = alt ? m_secondary_scope_tex_name : m_primary_scope_tex_name;
+
+			// demonized: ugly hack to fix stuck scope texture on old scopes system
+			if (!READ_IF_EXISTS(pSettings, r_string, cNameSect(), "scope_texture", NULL)) {
+				scope_tex_name = NULL;
+			}
 		}
 
 		if (scope_tex_name != 0) {
@@ -369,6 +374,11 @@ void CWeapon::UpdateUIScope()
 				m_primary_scope_tex_name = READ_IF_EXISTS(pSettings, r_string, cNameSect(), "scope_texture", NULL);
 			}
 			scope_tex_name = m_primary_scope_tex_name;
+
+			// demonized: ugly hack to fix stuck scope texture on old scopes system
+			if (!READ_IF_EXISTS(pSettings, r_string, cNameSect(), "scope_texture", NULL)) {
+				scope_tex_name = NULL;
+			}
 		}
 	}
 	else if (m_zoomtype == 1)
