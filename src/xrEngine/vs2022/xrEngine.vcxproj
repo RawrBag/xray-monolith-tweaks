@@ -189,6 +189,7 @@
     <TargetName>AnomalyDX11AVX</TargetName>
     <IntDir>$(xrIntDir)$(ProjectName)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\lib\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseR3|x64'">
     <OutDir>$(xrGameDir)bin_dbg\</OutDir>
@@ -417,7 +418,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseR4-AVX|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;$(SolutionDir)3rd party\luajit-2\src\;$(SolutionDir)3rd party\luabind\;$(DXSDK_DIR)Include;$(XRAY_16X_LIBS)OpenAutomate\inc;$(XRAY_16X_LIBS)libogg-1.1.4\include;$(XRAY_16X_LIBS)libtheora-1.1.1\include;$(xrSdkDir)include;$(xrSdkDir)include\OpenAutomate;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)3rd party\luajit-2\src\;$(SolutionDir)3rd party\luabind\;$(DXSDK_DIR)Include;$(XRAY_16X_LIBS)OpenAutomate\inc;$(XRAY_16X_LIBS)libogg-1.1.4\include;$(XRAY_16X_LIBS)libtheora-1.1.1\include;$(xrSdkDir)include;$(xrSdkDir)include\OpenAutomate;C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>STATIC_RENDERER_R4;NDEBUG;WIN32;_WINDOWS;ENGINE_BUILD;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>false</ExceptionHandling>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
@@ -440,8 +441,8 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>vfw32.lib;libogg_static.lib;libtheora_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir)$(Platform)\Release-AVX\;$(DXSDK_DIR)Lib\x64;$(SolutionDir)3rd party\luajit-2\src\;$(XRAY_16X_LIBS)OpenAutomate\libraries;$(SolutionDir)..\lib\$(Platform)\Release;$(SolutionDir)$(Platform)\Release;$(xrSdkDir)libraries\x64;$(xrLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vfw32.lib;libogg_static.lib;libtheora_static.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)$(Platform)\Release-AVX\;$(DXSDK_DIR)Lib\x64;$(SolutionDir)3rd party\luajit-2\src\;$(XRAY_16X_LIBS)OpenAutomate\libraries;$(SolutionDir)..\lib\$(Platform)\Release;$(SolutionDir)$(Platform)\Release;$(xrSdkDir)libraries\x64;$(xrLibDir);C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>$(xrLibDir)$(TargetName).lib</ImportLibrary>
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
@@ -842,10 +843,6 @@
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)3rd party\luabind\vs2022\luabind.beta7-devel.rc4.vcxproj">
       <Project>{cc52e0b3-cc35-4934-9302-035b748f3f2c}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="$(SolutionDir)3rd party\openal\OpenAL-Windows\Router\vs2022\Router.vcxproj">
-      <Project>{566551f4-4ef1-4cb4-a131-f982e7606907}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="$(SolutionDir)Layers\xrAPI\vs2022\xrAPI.vcxproj">

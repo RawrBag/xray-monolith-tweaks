@@ -59,6 +59,7 @@ public:
 	BOOL b2D;
 	BOOL bStopping;
 	BOOL bRewind;
+	bool						bIntro;
 	float fTimeStarted; // time of "Start"
 	float fTimeToStop; // time to "Stop"
 	float fTimeToPropagade;
@@ -85,7 +86,7 @@ public:
 		VERIFY(_valid(scale));
 		p_source.freq = scale;
 		if (fTimeToStop != 0.f)
-			fTimeToStop = SoundRender->fTimer_Value + ((get_length_sec() - (SoundRender->fTimer_Value - fTimeStarted)) / (scale * psSpeedOfSound));
+			fTimeToStop = SoundRender->fTimer_Value + ((get_length_sec() - (SoundRender->fTimer_Value - fTimeStarted)));
 	}
 
 	virtual void set_range(float min, float max)

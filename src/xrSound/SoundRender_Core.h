@@ -5,7 +5,7 @@
 #include "SoundRender.h"
 #include "SoundRender_Environment.h"
 #include "SoundRender_Cache.h"
-#include "soundrender_environment.h"
+
 
 class CSoundRender_Core : public CSound_manager_interface
 {
@@ -24,9 +24,9 @@ public:
 public:
 	BOOL bPresent;
 	BOOL bUserEnvironment;
-	BOOL bEAX; // Boolean variable to indicate presence of EAX Extension 
-	BOOL bDeferredEAX;
 	BOOL bReady;
+
+	bool m_is_supported;
 
 	CTimer Timer;
 	float fTimer_Value;
@@ -56,9 +56,7 @@ public:
 	// Cache
 	CSoundRender_Cache cache;
 	u32 cache_bytes_per_line;
-protected:
-	virtual void i_eax_set(const GUID* guid, u32 prop, void* val, u32 sz) =0;
-	virtual void i_eax_get(const GUID* guid, u32 prop, void* val, u32 sz) =0;
+
 public:
 	CSoundRender_Core();
 	virtual ~CSoundRender_Core();
@@ -96,9 +94,10 @@ public:
 	//	virtual const Fvector&				listener_position		( )=0;
 	virtual void update_listener(const Fvector& P, const Fvector& D, const Fvector& N, float dt) =0;
 	// eax listener
-	void i_eax_commit_setting();
-	void i_eax_listener_set(CSound_environment* E);
-	void i_eax_listener_get(CSound_environment* E);
+	virtual void set_listener(const CSoundRender_Environment& env) = 0;
+	virtual void get_listener(CSoundRender_Environment& env) = 0;
+	CSoundRender_Environment* get_environment(const Fvector& P);
+	virtual void commit() = 0;
 
 #ifdef _EDITOR
 	virtual SoundEnvironment_LIB*		get_env_library			()																{ return s_environment; }
@@ -122,8 +121,9 @@ public:
 	void i_create_all_sources();
 
 	virtual float get_occlusion_to(const Fvector& hear_pt, const Fvector& snd_pt, float dispersion = 0.2f);
-	float get_occlusion(Fvector& P, float R, Fvector* occ) override;
-	CSoundRender_Environment* get_environment(const Fvector& P);
+	virtual float get_occlusion(Fvector& P, float R, Fvector* occ);
+
+	
 
 	void env_load();
 	void env_unload();

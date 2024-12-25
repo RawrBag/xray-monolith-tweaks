@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #define AL_BUILD_LIBRARY
-#include "openal\alc.h"
+#include "AL\alc.h"
 #include <stdio.h>
 #include <tchar.h>
 #include <assert.h>
@@ -52,20 +52,7 @@
 
 #include "OpenAL32.h"
 
-log_fn_ptr_type*	pLog = NULL;
-void AlLog(LPCSTR format, ...)
-{
-	if(pLog)
-	{
-		va_list		mark;
-		char	buf	[2048];
-		va_start	(mark, format );
-		int sz		= _vsnprintf(buf, sizeof(buf)-1, format, mark ); buf[sizeof(buf)-1]=0;
-		va_end		(mark);
-		if (sz)		
-			(*pLog)(buf);
-	}
-}
+
 
 //*****************************************************************************
 //*****************************************************************************

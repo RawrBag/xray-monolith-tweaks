@@ -28,9 +28,9 @@
 extern "C" {
 #endif
 
-#define AL_BUILD_LIBRARY
+#define AL_LIBTYPE_STATIC
 
-#include "openal\al.h"
+#include "AL\al.h"
 
 // ALAPI
 typedef ALAPI ALvoid         (ALAPIENTRY *ALAPI_ENABLE)(ALenum capability);
@@ -204,7 +204,7 @@ typedef struct ALAPI_FXN_TABLE_STRUCT
 
 } ALAPI_FXN_TABLE;
 
-#include "openal\alc.h"
+#include "al\alc.h"
 
 // ALCAPI
 typedef struct ALCdevice_struct ALCdevice;

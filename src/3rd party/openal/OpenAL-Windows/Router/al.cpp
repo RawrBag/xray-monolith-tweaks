@@ -21,7 +21,7 @@
 
 
 
-#include "openal\alc.h"
+#include "AL\alc.h"
 #include "OpenAL32.h"
 
 typedef struct ALfunction_struct

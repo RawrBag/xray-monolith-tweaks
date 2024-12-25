@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup Label="Debug" Condition="'$(Configuration.ToLower())' == 'debug'">
+        <NuGetConfiguration>Debug</NuGetConfiguration>
+    </PropertyGroup>
+    <PropertyGroup Label="Non_Debug" Condition="'$(Configuration.ToLower())' == 'release'">
+        <NuGetConfiguration>Release</NuGetConfiguration>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(NuGetConfiguration)' == ''">
+        <NuGetConfiguration>Release</NuGetConfiguration>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'Win32' Or '$(Platform)' == 'x86'">
+        <NuGetPlatform>Win32</NuGetPlatform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Platform)' == 'x64'">
+        <NuGetPlatform>x64</NuGetPlatform>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <OpenAL32-RootPath>$(MSBuildThisFileDirectory)\..\..\native</OpenAL32-RootPath>
+        <OpenAL32-BinPath>$(OpenAL32-RootPath)\bin\$(NuGetPlatform)\$(NuGetConfiguration)\</OpenAL32-BinPath>
+        <OpenAL32-LibPath>$(OpenAL32-RootPath)\lib\$(NuGetPlatform)\$(NuGetConfiguration)\</OpenAL32-LibPath>
+    </PropertyGroup>
+
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <AdditionalIncludeDirectories>$(OpenAL32-RootPath)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <PreprocessorDefinitions>HAS_OPENAL_SOFT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+        </ClCompile>
+
+        <Link>
+            <AdditionalLibraryDirectories>$(OpenAL32-LibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+            <AdditionalDependencies>OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+        </Link>
+    </ItemDefinitionGroup>
+
+    <ItemGroup>
+        <ReferenceCopyLocalPaths Include="$(OpenAL32-BinPath)\OpenAL32.dll" />
+    </ItemGroup>
+</Project>

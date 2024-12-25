@@ -51,7 +51,7 @@ enum
 {
 	ss_Hardware = (1ul << 1ul),
 	//!< Use hardware mixing only
-	ss_EAX = (1ul << 2ul),
+	ss_EFX = (1ul << 2ul),
 	//!< Use eax
 	ss_forcedword = u32(-1)
 };
@@ -78,7 +78,9 @@ enum
 	//!< Looped
 	sm_2D = (1ul << 1ul),
 	//!< 2D mode
+	sm_Intro = (1ul << 2ul),	//!< Only for music and video
 	sm_forcedword = u32(-1),
+
 };
 
 enum esound_type

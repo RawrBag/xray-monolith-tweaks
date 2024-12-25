@@ -127,6 +127,10 @@
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='VerifiedDX11|x64'">
     <ClCompile>
@@ -162,6 +166,10 @@
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Verified|x64'">
     <ClCompile>
@@ -197,10 +205,14 @@
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release-AVX|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(xrSdkDir)include;$(XRAY_16X_LIBS)libvorbis-1.2.3\include;$(XRAY_16X_LIBS)libogg-1.1.4\include;$(SolutionDir)3rd party\OpenAL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(xrSdkDir)include;$(XRAY_16X_LIBS)libvorbis-1.2.3\include;$(XRAY_16X_LIBS)libogg-1.1.4\include;C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XRSOUND_EXPORTS;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -231,6 +243,10 @@
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>OpenAL32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\willh\source\repos\xray-monolith-tweaks\sdk\include\openal\native\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\cl_intersect.h" />

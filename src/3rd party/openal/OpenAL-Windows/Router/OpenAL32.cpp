@@ -30,33 +30,33 @@
 //*****************************************************************************
 //
 //BOOL APIENTRY DllMain(HANDLE module, DWORD reason, LPVOID reserved)
-BOOL DllMainOpenAL32(HANDLE module, DWORD reason, LPVOID reserved)
+int __cdecl DllMainOpenAL32(void* hModule, unsigned long ul_reason_for_call, void* lpReserved)
 {
     BOOL result = TRUE;
 
     // Perform actions based on the reason for calling.
-    switch(reason)
+    switch (ul_reason_for_call)
     {
-        case DLL_PROCESS_ATTACH:
-            // Create the context list lock so I can safely add/remove contexts.
-            result = alListCreate(&alContextList);
-            break;
+    case DLL_PROCESS_ATTACH:
+        // Create the context list lock so I can safely add/remove contexts.
+        result = alListCreate(&alContextList);
+        break;
 
-        case DLL_THREAD_ATTACH:
-            // Do thread-specific initialization.
-            break;
+    case DLL_THREAD_ATTACH:
+        // Do thread-specific initialization.
+        break;
 
-        case DLL_THREAD_DETACH:
-            // Do thread-specific cleanup.
-            break;
+    case DLL_THREAD_DETACH:
+        // Do thread-specific cleanup.
+        break;
 
-        case DLL_PROCESS_DETACH:
-            // Perform any necessary cleanup.
-            alListFree(alContextList);
-            alContextList = 0;
-            break;
+    case DLL_PROCESS_DETACH:
+        // Perform any necessary cleanup.
+        alListFree(alContextList);
+        alContextList = 0;
+        break;
     }
 
-    return TRUE;
+    return result;
 }
 

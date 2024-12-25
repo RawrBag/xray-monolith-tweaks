@@ -107,6 +107,11 @@ bool CLevel::Load_GameSpecific_After()
 			IReader* F = FS.r_open(fn_game);
 			::Sound->set_geometry_env(F);
 			FS.r_close(F);
+			Msg("Env Found and loaded.");
+		}
+		else
+		{
+			Msg("Env not found.");
 		}
 		// loading SOM
 		if (FS.exist(fn_game, "$level$", "level.som"))
@@ -114,8 +119,12 @@ bool CLevel::Load_GameSpecific_After()
 			IReader* F = FS.r_open(fn_game);
 			::Sound->set_geometry_som(F);
 			FS.r_close(F);
+			Msg("SOM found and loaded.");
 		}
-
+		else
+		{
+			Msg("SOM not found.");
+		}
 		// loading random (around player) sounds
 		if (pSettings->section_exist("sounds_random"))
 		{

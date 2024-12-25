@@ -14,7 +14,7 @@ class CSoundRender_TargetA : public CSoundRender_Target
 	ALuint pBuffers[sdef_target_count];
 	float cache_gain;
 	float cache_pitch;
-
+	ALuint						Slot;
 	ALuint buf_block;
 private:
 	void fill_block(ALuint BufferID);
@@ -25,7 +25,7 @@ public:
 	virtual BOOL _initialize();
 	virtual void _destroy();
 	virtual void _restart();
-
+	void				SetSlot(ALuint NewSlot);
 	virtual void start(CSoundRender_Emitter* E);
 	virtual void render();
 	virtual void rewind();

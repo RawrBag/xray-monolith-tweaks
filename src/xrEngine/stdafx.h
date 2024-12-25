@@ -68,6 +68,7 @@ extern ENGINE_API CInifile* pGameIni;
 
 #pragma comment( lib, "xrCore.lib" )
 #pragma comment( lib, "xrCDB.lib" )
+#pragma comment( lib, "OpenAL32.lib" )
 #pragma comment( lib, "xrSound.lib" )
 
 //AVO: lua re-org

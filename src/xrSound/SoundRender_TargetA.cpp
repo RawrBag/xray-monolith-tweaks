@@ -5,48 +5,54 @@
 #include "soundrender_emitter.h"
 #include "soundrender_source.h"
 
-xr_vector<u8> g_target_temp_data;
 
+xr_vector<u8> g_target_temp_data;
+xr_vector<u8> g_target_temp_data_16;
 CSoundRender_TargetA::CSoundRender_TargetA(): CSoundRender_Target()
 {
 	cache_gain = 0.f;
 	cache_pitch = 1.f;
 	pSource = 0;
+
 }
 
 CSoundRender_TargetA::~CSoundRender_TargetA()
 {
 }
 
-BOOL CSoundRender_TargetA::_initialize()
+void CSoundRender_TargetA::SetSlot(ALuint NewSlot)
+{
+	Slot = NewSlot;
+}
+
+BOOL	CSoundRender_TargetA::_initialize()
 {
 	inherited::_initialize();
 	// initialize buffer
-	A_CHK(alGenBuffers (sdef_target_count, pBuffers));
+	A_CHK(alGenBuffers(sdef_target_count, pBuffers));
 	alGenSources(1, &pSource);
-	ALenum error = alGetError();
-	if (AL_NO_ERROR == error)
-	{
-		A_CHK(alSourcei (pSource, AL_LOOPING, AL_FALSE));
-		A_CHK(alSourcef (pSource, AL_MIN_GAIN, 0.f));
-		A_CHK(alSourcef (pSource, AL_MAX_GAIN, 1.f));
-		A_CHK(alSourcef (pSource, AL_GAIN, cache_gain));
-		A_CHK(alSourcef (pSource, AL_PITCH, cache_pitch));
-		return TRUE;
+
+	ALenum error_ = alGetError();
+	if (AL_NO_ERROR == error_) {
+		A_CHK(alSourcei(pSource, AL_LOOPING, AL_FALSE));
+		A_CHK(alSourcef(pSource, AL_MIN_GAIN, 0.f));
+		A_CHK(alSourcef(pSource, AL_MAX_GAIN, 1.f));
+		A_CHK(alSourcef(pSource, AL_GAIN, cache_gain));
+		A_CHK(alSourcef(pSource, AL_PITCH, cache_pitch));
+		return			TRUE;
 	}
-	else
-	{
-		Msg("! sound: OpenAL: Can't create source. Error: %s.", (LPCSTR)alGetString(error));
-		return FALSE;
+	else {
+		Msg("! sound: OpenAL: Can't create source. Error: %s.", (LPCSTR)alGetString(error_));
+		return 			FALSE;
 	}
 }
 
-void CSoundRender_TargetA::_destroy()
+void	CSoundRender_TargetA::_destroy()
 {
 	// clean up target
 	if (alIsSource(pSource))
 		alDeleteSources(1, &pSource);
-	A_CHK(alDeleteBuffers (sdef_target_count, pBuffers));
+	A_CHK(alDeleteBuffers(sdef_target_count, pBuffers));
 }
 
 void CSoundRender_TargetA::_restart()
@@ -62,26 +68,34 @@ void CSoundRender_TargetA::start(CSoundRender_Emitter* E)
 	// Calc storage
 	buf_block = sdef_target_block * E->source()->m_wformat.nAvgBytesPerSec / 1000;
 	g_target_temp_data.resize(buf_block);
+	g_target_temp_data_16.resize(buf_block * 2);
 }
 
-void CSoundRender_TargetA::render()
+void	CSoundRender_TargetA::render()
 {
 	for (u32 buf_idx = 0; buf_idx < sdef_target_count; buf_idx++)
 		fill_block(pBuffers[buf_idx]);
 
-	A_CHK(alSourceQueueBuffers (pSource, sdef_target_count, pBuffers));
-	A_CHK(alSourcePlay (pSource));
+	A_CHK(alSourceQueueBuffers(pSource, sdef_target_count, pBuffers));
+
+	if (Slot != 0 && !m_pEmitter->bIntro)
+	{
+		A_CHK(alSource3i(pSource, AL_AUXILIARY_SEND_FILTER, Slot, 0, AL_FILTER_NULL));
+		//Msg("! sound: OpenAL: Can't create source. Error: %s.", (LPCSTR)alGetString(alGetError()));
+	}
+
+	A_CHK(alSourcePlay(pSource));
 
 	inherited::render();
 }
 
-void CSoundRender_TargetA::stop()
+void	CSoundRender_TargetA::stop()
 {
 	if (rendering)
 	{
 		A_CHK(alSourceStop(pSource));
-		A_CHK(alSourcei (pSource, AL_BUFFER, NULL));
-		A_CHK(alSourcei (pSource, AL_SOURCE_RELATIVE, TRUE));
+		A_CHK(alSourcei(pSource, AL_BUFFER, FALSE));
+		A_CHK(alSourcei(pSource, AL_SOURCE_RELATIVE, TRUE));
 	}
 	inherited::stop();
 }
@@ -175,9 +189,9 @@ void CSoundRender_TargetA::fill_parameters()
 	float _pitch = m_pEmitter->p_source.freq;
 	clamp(_pitch, EPS_L, 2.f);
 
-	if (!fsimilar(cache_pitch, _pitch * psSpeedOfSound))
+	if (!fsimilar(cache_pitch, _pitch ))
 	{
-		cache_pitch = _pitch * psSpeedOfSound;
+		cache_pitch = _pitch ;
 
 		// Only update time to stop for non-looped sounds
 		if (!m_pEmitter->iPaused && (m_pEmitter->m_current_state == CSoundRender_Emitter::stStarting || m_pEmitter->m_current_state == CSoundRender_Emitter::stPlaying || m_pEmitter->m_current_state == CSoundRender_Emitter::stSimulating))

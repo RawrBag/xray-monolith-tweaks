@@ -40,6 +40,7 @@ CSoundRender_Emitter::CSoundRender_Emitter(void)
 	b2D = FALSE;
 	bStopping = FALSE;
 	bRewind = FALSE;
+	bIntro = FALSE;
 	iPaused = 0;
 	fTimeStarted = 0.0f;
 	fTimeToStop = 0.0f;

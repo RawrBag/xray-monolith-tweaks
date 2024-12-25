@@ -6,6 +6,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xrEngine", "xrEngine\vs2022
 	ProjectSection(ProjectDependencies) = postProject
 		{0BDF3377-F84E-4B42-A605-B45AAA244CB6} = {0BDF3377-F84E-4B42-A605-B45AAA244CB6}
 		{3A214E06-B95E-4D61-A291-1F8DF2EC10FD} = {3A214E06-B95E-4D61-A291-1F8DF2EC10FD}
+		{566551F4-4EF1-4CB4-A131-F982E7606907} = {566551F4-4EF1-4CB4-A131-F982E7606907}
 		{632AEEB6-DC06-4E15-9551-B2B09A4B73C5} = {632AEEB6-DC06-4E15-9551-B2B09A4B73C5}
 		{893887A1-3ABF-40A0-B931-CD0867010785} = {893887A1-3ABF-40A0-B931-CD0867010785}
 		{9646DBF8-1A5E-41F0-9328-F65910706666} = {9646DBF8-1A5E-41F0-9328-F65910706666}
@@ -47,7 +48,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xrSound", "xrSound\vs2022\xrSound.vcxproj", "{CCCA7859-EB86-493E-9B53-C4235F45B3C5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3A214E06-B95E-4D61-A291-1F8DF2EC10FD} = {3A214E06-B95E-4D61-A291-1F8DF2EC10FD}
-		{566551F4-4EF1-4CB4-A131-F982E7606907} = {566551F4-4EF1-4CB4-A131-F982E7606907}
 		{893887A1-3ABF-40A0-B931-CD0867010785} = {893887A1-3ABF-40A0-B931-CD0867010785}
 		{CEBDE98B-A6AA-46E6-BC79-FAAF823DB9EC} = {CEBDE98B-A6AA-46E6-BC79-FAAF823DB9EC}
 	EndProjectSection
@@ -99,6 +99,50 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NVTT", "3rd party\NVTT\vs2022\NVTT.vcxproj", "{0EB257DC-5CFC-44B0-82C9-CE6B158BE473}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ReShadeCompat", "ReShadeCompat\ReShadeCompat.vcxproj", "{9646DBF8-1A5E-41F0-9328-F65910706666}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IXRAY", "IXRAY", "{10C8629E-7460-4EB5-8471-9BB8F472444D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xrSound", "xrSound", "{737568CF-CF5E-476B-8E94-FF5B9E1A4833}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\ixray-1.6-stcop\src\xrSound\ai_sounds.h = ..\..\ixray-1.6-stcop\src\xrSound\ai_sounds.h
+		..\..\ixray-1.6-stcop\src\xrSound\cl_intersect.h = ..\..\ixray-1.6-stcop\src\xrSound\cl_intersect.h
+		..\..\ixray-1.6-stcop\src\xrSound\CMakeLists.txt = ..\..\ixray-1.6-stcop\src\xrSound\CMakeLists.txt
+		..\..\ixray-1.6-stcop\src\xrSound\guids.cpp = ..\..\ixray-1.6-stcop\src\xrSound\guids.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\ogg_utils.cpp = ..\..\ixray-1.6-stcop\src\xrSound\ogg_utils.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\ogg_utils.h = ..\..\ixray-1.6-stcop\src\xrSound\ogg_utils.h
+		..\..\ixray-1.6-stcop\src\xrSound\OpenALDeviceList.cpp = ..\..\ixray-1.6-stcop\src\xrSound\OpenALDeviceList.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\OpenALDeviceList.h = ..\..\ixray-1.6-stcop\src\xrSound\OpenALDeviceList.h
+		..\..\ixray-1.6-stcop\src\xrSound\sound.cpp = ..\..\ixray-1.6-stcop\src\xrSound\sound.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\Sound.h = ..\..\ixray-1.6-stcop\src\xrSound\Sound.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Cache.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Cache.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Cache.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Cache.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_CoreA.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_CoreA.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_CoreA.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_CoreA.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core_Processor.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core_Processor.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core_SourceManager.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core_SourceManager.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core_StartStop.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Core_StartStop.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter_FSM.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter_FSM.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter_StartStop.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter_StartStop.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter_streamer.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Emitter_streamer.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Environment.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Environment.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Environment.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Environment.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Source.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Source.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Source.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Source.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Source_loader.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Source_loader.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Target.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Target.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Target.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_Target.h
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_TargetA.cpp = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_TargetA.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\SoundRender_TargetA.h = ..\..\ixray-1.6-stcop\src\xrSound\SoundRender_TargetA.h
+		..\..\ixray-1.6-stcop\src\xrSound\stdafx.cpp = ..\..\ixray-1.6-stcop\src\xrSound\stdafx.cpp
+		..\..\ixray-1.6-stcop\src\xrSound\stdafx.h = ..\..\ixray-1.6-stcop\src\xrSound\stdafx.h
+		..\..\ixray-1.6-stcop\src\xrSound\xrSoundB.bpf = ..\..\ixray-1.6-stcop\src\xrSound\xrSoundB.bpf
+		..\..\ixray-1.6-stcop\src\xrSound\xrSoundB.bpr = ..\..\ixray-1.6-stcop\src\xrSound\xrSoundB.bpr
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -179,7 +223,6 @@ Global
 		{566551F4-4EF1-4CB4-A131-F982E7606907}.DX11|x64.ActiveCfg = Release|x64
 		{566551F4-4EF1-4CB4-A131-F982E7606907}.DX11|x64.Build.0 = Release|x64
 		{566551F4-4EF1-4CB4-A131-F982E7606907}.DX11-AVX|x64.ActiveCfg = Release-AVX|x64
-		{566551F4-4EF1-4CB4-A131-F982E7606907}.DX11-AVX|x64.Build.0 = Release-AVX|x64
 		{566551F4-4EF1-4CB4-A131-F982E7606907}.DX8|x64.ActiveCfg = Release|x64
 		{566551F4-4EF1-4CB4-A131-F982E7606907}.DX8|x64.Build.0 = Release|x64
 		{566551F4-4EF1-4CB4-A131-F982E7606907}.DX8-AVX|x64.ActiveCfg = Release-AVX|x64
@@ -864,6 +907,7 @@ Global
 		{772FE450-F4F3-4687-A2A7-5624825089D7} = {2BFC806B-CE92-4EA4-8FE8-5F2EA54BA348}
 		{0EB257DC-5CFC-44B0-82C9-CE6B158BE473} = {2BFC806B-CE92-4EA4-8FE8-5F2EA54BA348}
 		{9646DBF8-1A5E-41F0-9328-F65910706666} = {2BFC806B-CE92-4EA4-8FE8-5F2EA54BA348}
+		{737568CF-CF5E-476B-8E94-FF5B9E1A4833} = {10C8629E-7460-4EB5-8471-9BB8F472444D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {76CF157A-A169-443B-AE3A-F17AD29325C6}
