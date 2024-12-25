@@ -111,7 +111,7 @@ void CSoundRender_CoreA::commit()
 	// Tell the effect slot to use the loaded effect object. Note that this
 	// effectively copies the effect properties. You can modify or delete the
 	// effect object afterward without affecting the effect slot.
-	A_CHK(alAuxiliaryEffectSlotf(Slot, AL_EFFECTSLOT_GAIN, 1.f));
+	A_CHK(alAuxiliaryEffectSlotf(Slot, AL_EFFECTSLOT_GAIN, 1.0f));
 	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, false));
 	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_EFFECT, effect));
 }
@@ -183,22 +183,6 @@ void CSoundRender_CoreA::set_listener(const CSoundRender_Environment& env)
 	A_CHK(alEffectf(effect, AL_EAXREVERB_LATE_REVERB_GAIN, env.Reverb));
 	A_CHK(alEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, env.AirAbsorptionHF));
 	A_CHK(alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, env.RoomRolloffFactor));
-
-	
-	
-		A_CHK(alEffectf(effect, AL_EAXREVERB_GAINHF, env.RoomLF));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_REFLECTIONS_PAN, *env.ReflectionsPan));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_LATE_REVERB_PAN, *env.ReverbPan));
-		A_CHK(alEffecti(effect, AL_EAXREVERB_DECAY_HFLIMIT, env.DecayHFLimit));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_ECHO_TIME, env.EchoTime));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_ECHO_DEPTH, env.EchoDepth));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_LATE_REVERB_DELAY, env.ReverbDelay));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_DECAY_LFRATIO, env.DecayLFRatio));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_MODULATION_TIME, env.ModulationTime));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_MODULATION_DEPTH, env.ModulationDepth));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_HFREFERENCE, env.HFReference));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_LFREFERENCE, env.LFReference));
-		A_CHK(alEffectf(effect, AL_EAXREVERB_DENSITY, env.Density));
 	
 }
 
@@ -304,7 +288,7 @@ void CSoundRender_CoreA::_initialize(int stage)
 	Fvector	orient[2] = { {0.f,0.f,1.f},{0.f,1.f,0.f} };
 	A_CHK(alListenerfv(AL_ORIENTATION, &orient[0].x));
 	A_CHK(alListenerf(AL_GAIN, 1.f));
-	A_CHK(alListenerf(AL_METERS_PER_UNIT, 0.1f));
+	
 
 	// Check for EFX extension
 

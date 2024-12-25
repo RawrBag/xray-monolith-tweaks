@@ -21,7 +21,7 @@ CSoundRender_Environment::~CSoundRender_Environment(void)
 
 void CSoundRender_Environment::set_default()
 {
-	Room = reverbs->flGain;
+	Room = 0.f; // reverbs->flGain;
 	RoomHF = reverbs->flGainHF;
 	RoomLF = reverbs->flGainLF;
 	Density = reverbs->flDensity;
@@ -49,7 +49,7 @@ void CSoundRender_Environment::set_default()
 void CSoundRender_Environment::set_identity()
 {
 	set_default();
-	//Room                    = EAXLISTENER_MINROOM;
+	Room                    = -10000;
 	clamp();
 }
 
