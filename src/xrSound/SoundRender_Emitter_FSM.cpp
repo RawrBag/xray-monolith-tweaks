@@ -69,7 +69,7 @@ void CSoundRender_Emitter::update(float dt)
 		smooth_volume = p_source.base_volume * p_source.volume * (owner_data->s_type == st_Effect
 			                                                          ? psSoundVEffects * psSoundVFactor
 			                                                          : psSoundVMusic * psSoundVMusicFactor) * (b2D ? 1.f : occluder_volume);
-		e_current = e_target = *SoundRender->get_environment(p_source.position);
+		//e_current = e_target = *SoundRender->get_environment(p_source.position);
 		if (update_culling(dt))
 		{
 			m_current_state = stPlaying;
@@ -95,7 +95,7 @@ void CSoundRender_Emitter::update(float dt)
 		smooth_volume = p_source.base_volume * p_source.volume * (owner_data->s_type == st_Effect
 			                                                          ? psSoundVEffects * psSoundVFactor
 			                                                          : psSoundVMusic * psSoundVMusicFactor) * (b2D ? 1.f : occluder_volume);
-		e_current = e_target = *SoundRender->get_environment(p_source.position);
+		//e_current = e_target = *SoundRender->get_environment(p_source.position);
 		if (update_culling(dt))
 		{
 			m_current_state = stPlayingLooped;
@@ -334,8 +334,8 @@ float CSoundRender_Emitter::priority()
 void CSoundRender_Emitter::update_environment(float dt)
 {
 	if (bMoved) {
-		e_target = *SoundRender->get_environment(p_source.position);
+	//	e_target = *SoundRender->get_environment(p_source.position);
 		p_source.update_velocity(dt);
 	}
-	e_current.lerp(e_current, e_target, dt);
+	//e_current.lerp(e_current, e_target, dt);
 }

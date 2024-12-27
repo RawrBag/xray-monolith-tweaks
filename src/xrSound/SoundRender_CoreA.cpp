@@ -112,7 +112,7 @@ void CSoundRender_CoreA::commit()
 	// effectively copies the effect properties. You can modify or delete the
 	// effect object afterward without affecting the effect slot.
 	A_CHK(alAuxiliaryEffectSlotf(Slot, AL_EFFECTSLOT_GAIN, 1.0f));
-	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, false));
+	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, FALSE));
 	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_EFFECT, effect));
 }
 
@@ -173,6 +173,7 @@ void CSoundRender_CoreA::set_listener(const CSoundRender_Environment& env)
 	A_CHK(alEffectf(effect, AL_REVERB_ROOM_ROLLOFF_FACTOR, env.RoomRolloffFactor));
 	A_CHK(alEffecti(effect, AL_REVERB_DECAY_HFLIMIT, env.DecayHFLimit));
 	*/
+
 	A_CHK(alEffectf(effect, AL_EAXREVERB_DIFFUSION, env.EnvironmentDiffusion));
 	A_CHK(alEffectf(effect, AL_EAXREVERB_GAIN, env.Room));
 	A_CHK(alEffectf(effect, AL_EAXREVERB_GAINHF, env.RoomHF));

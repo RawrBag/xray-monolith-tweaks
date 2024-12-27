@@ -107,7 +107,7 @@ void CSoundRender_Core::update(const Fvector& P, const Fvector& D, const Fvector
 		{
 			bListenerMoved = FALSE;
 			e_target = *get_environment(P);
-			Msg("Sound: Environment changed to [%s], Environment ID: [%d] , Environment Version: [%d]", e_target.name.c_str(), e_target.Environment ,e_target.version);
+			//Msg("Sound: Environment changed to [%s], Environment ID: [%d] , Environment Version: [%d]", e_target.name.c_str(), e_target.Environment ,e_target.version);
 		}
 
 		e_current.lerp(e_current, e_target, dt_sec);
