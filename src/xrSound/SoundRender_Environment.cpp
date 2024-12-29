@@ -25,7 +25,7 @@ void CSoundRender_Environment::set_default()
 	RoomHF = reverbs->flGainHF;
 	RoomLF = reverbs->flGainLF;
 	Density = reverbs->flDensity;
-	RoomRolloffFactor = reverbs->flRoomRolloffFactor;
+	RoomRolloffFactor = 1.f;
 	DecayTime = reverbs->flDecayTime;
 	DecayHFRatio = reverbs->flDecayHFRatio;
 	DecayLFRatio = reverbs->flDecayLFRatio;
@@ -49,7 +49,7 @@ void CSoundRender_Environment::set_default()
 void CSoundRender_Environment::set_identity()
 {
 	set_default();
-	Room                    = -10000;
+	//Room                    = -10000;
 	clamp();
 }
 
@@ -149,7 +149,7 @@ bool CSoundRender_Environment::load(IReader* fs)
 		//RoomHF = fs->r_float();
 	
 
-		RoomRolloffFactor = fs->r_float();
+		//RoomRolloffFactor = fs->r_float();
 		DecayTime = fs->r_float();
 		DecayHFRatio = fs->r_float();
 		Reflections = fs->r_float();

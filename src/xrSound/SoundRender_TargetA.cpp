@@ -78,7 +78,7 @@ void	CSoundRender_TargetA::render()
 
 	A_CHK(alSourceQueueBuffers(pSource, sdef_target_count, pBuffers));
 
-	if (Slot != 0 && !m_pEmitter->bIntro)
+	if (Slot != u32(-1) && !m_pEmitter->bIntro)
 	{
 		A_CHK(alSource3i(pSource, AL_AUXILIARY_SEND_FILTER, Slot, 0, AL_FILTER_NULL));
 		//Msg("! sound: OpenAL: Can't create source. Error: %s.", (LPCSTR)alGetString(alGetError()));
@@ -175,6 +175,7 @@ void CSoundRender_TargetA::fill_parameters()
 	A_CHK(alSourcei (pSource, AL_SOURCE_RELATIVE, m_pEmitter->b2D));
 
 	A_CHK(alSourcef (pSource, AL_ROLLOFF_FACTOR, psSoundRolloff));
+	
 
 	VERIFY2(m_pEmitter, SE->source()->file_name());
 	float _gain = m_pEmitter->smooth_volume;

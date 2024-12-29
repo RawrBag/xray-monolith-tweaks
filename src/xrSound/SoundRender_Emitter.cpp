@@ -93,7 +93,6 @@ void CSoundRender_Emitter::Event_Propagade()
 void CSoundRender_Emitter::switch_to_2D()
 {
 	b2D = TRUE;
-	bIntro = TRUE;
 	set_priority(100.f);
 }
 

@@ -112,7 +112,7 @@ void CSoundRender_CoreA::commit()
 	// effectively copies the effect properties. You can modify or delete the
 	// effect object afterward without affecting the effect slot.
 	A_CHK(alAuxiliaryEffectSlotf(Slot, AL_EFFECTSLOT_GAIN, 1.0f));
-	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, FALSE));
+	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_AUXILIARY_SEND_AUTO, TRUE));
 	A_CHK(alAuxiliaryEffectSloti(Slot, AL_EFFECTSLOT_EFFECT, effect));
 }
 
@@ -183,7 +183,7 @@ void CSoundRender_CoreA::set_listener(const CSoundRender_Environment& env)
 	A_CHK(alEffectf(effect, AL_EAXREVERB_REFLECTIONS_DELAY, env.ReflectionsDelay));
 	A_CHK(alEffectf(effect, AL_EAXREVERB_LATE_REVERB_GAIN, env.Reverb));
 	A_CHK(alEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, env.AirAbsorptionHF));
-	A_CHK(alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, env.RoomRolloffFactor));
+	A_CHK(alEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, 1.f));
 	
 }
 
@@ -225,7 +225,7 @@ void CSoundRender_CoreA::get_listener(CSoundRender_Environment& env)
 	A_CHK(alGetEffectf(effect, AL_EAXREVERB_AIR_ABSORPTION_GAINHF, &env.AirAbsorptionHF));
 	A_CHK(alGetEffectf(effect, AL_EAXREVERB_HFREFERENCE, &env.HFReference));
 	A_CHK(alGetEffectf(effect, AL_EAXREVERB_LFREFERENCE, &env.LFReference));
-	A_CHK(alGetEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, &env.RoomRolloffFactor));
+	//A_CHK(alGetEffectf(effect, AL_EAXREVERB_ROOM_ROLLOFF_FACTOR, &env.RoomRolloffFactor));
 	A_CHK(alEffecti(effect, AL_EAXREVERB_DECAY_HFLIMIT, (ALint)env.DecayHFLimit));
 
 }
