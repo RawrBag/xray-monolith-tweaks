@@ -337,7 +337,7 @@ void CStepManager::material_sound::play_next(SGameMtlPair* mtl_pair, CEntityAliv
 		return;
 
 	Fvector sound_pos = object->Position();
-	sound_pos.y += 0.5;
+//	sound_pos.y += 0.0;
 
 	if (last_mtl_pair != mtl_pair || m_last_step_sound_played == u8(-1))
 	{
@@ -355,7 +355,7 @@ void CStepManager::material_sound::play_next(SGameMtlPair* mtl_pair, CEntityAliv
 
 	float vol = (b_hud_mode) ? volume * psHUDStepSoundVolume : volume;
 	if (b_hud_mode)
-		sound_pos.set(0, 0, 0);
+		sound_pos.set(0, -0.75, 0);
 
 	mtl_pair->StepSounds[m_last_step_sound_played].play_no_feedback(object,
 	                                                                b_hud_mode ? sm_2D : 0,

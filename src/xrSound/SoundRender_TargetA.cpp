@@ -174,9 +174,9 @@ void CSoundRender_TargetA::fill_parameters()
 
 	VERIFY2(m_pEmitter, SE->source()->file_name());
 	A_CHK(alSourcei (pSource, AL_SOURCE_RELATIVE, m_pEmitter->b2D));
-
+	A_CHK(alSourcef(pSource, AL_ROOM_ROLLOFF_FACTOR, psSoundRoomRolloff));
 	A_CHK(alSourcef (pSource, AL_ROLLOFF_FACTOR, psSoundRolloff));
-	A_CHK(alSourcef (pSource, AL_ROOM_ROLLOFF_FACTOR, psSoundRolloff * 0.5f));
+	
 
 	A_CHK(alSourcei(pSource, AL_AUXILIARY_SEND_FILTER_GAIN_AUTO, AL_TRUE));
 

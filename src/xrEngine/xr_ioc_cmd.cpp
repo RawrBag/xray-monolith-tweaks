@@ -1039,8 +1039,13 @@ void CCC_Register()
 	// Doppler effect power
 	CMD4(CCC_Float, "snd_doppler_power", &soundSmoothingParams::power, 0.f, 5.f);
 	CMD4(CCC_SoundParamsSmoothing, "snd_doppler_smoothing", &soundSmoothingParams::steps, 1, 100);
+	// efx settings
+	CMD4(CCC_Float, "snd_rolloff_factor", &psSoundRolloff, 0.f, 1.f);
+	CMD4(CCC_Float, "snd_room_rolloff_factor", &psSoundRoomRolloff, 0.f, 1.f);
+	CMD4(CCC_Float, "snd_occlusion_scale", &psSoundOcclusionScale, 0.f, 1.f);
+	//CMD4(CCC_Float, "snd_meters_per_unit", &psSoundMeterPerUnit, 0.f, 1.f);
 
-#ifdef DEBUG
+
     CMD3(CCC_Mask, "snd_stats", &g_stats_flags, st_sound);
     CMD3(CCC_Mask, "snd_stats_min_dist", &g_stats_flags, st_sound_min_dist);
     CMD3(CCC_Mask, "snd_stats_max_dist", &g_stats_flags, st_sound_max_dist);
@@ -1049,7 +1054,7 @@ void CCC_Register()
     CMD3(CCC_Mask, "snd_stats_info_object", &g_stats_flags, st_sound_info_object);
 
     CMD4(CCC_Integer, "error_line_count", &g_ErrorLineCount, 6, 1024);
-#endif // DEBUG
+
 
 	// Mouse
 	CMD3(CCC_Mask, "mouse_invert", &psMouseInvert, 1);
@@ -1070,8 +1075,8 @@ void CCC_Register()
 	CMD1(CCC_soundDevice, "snd_device");
 #endif
 	//psSoundRolloff = pSettings->r_float ("sound","rolloff"); clamp(psSoundRolloff, EPS_S, 2.f);
-	psSoundOcclusionScale = pSettings->r_float("sound", "occlusion_scale");
-	clamp(psSoundOcclusionScale, 0.1f, .5f);
+	//psSoundOcclusionScale = pSettings->r_float("sound", "occlusion_scale");
+	//clamp(psSoundOcclusionScale, 0.1f, .5f);
 
 	extern int g_Dump_Export_Obj;
 	extern int g_Dump_Import_Obj;

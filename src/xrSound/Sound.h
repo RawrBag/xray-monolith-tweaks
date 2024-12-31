@@ -38,7 +38,9 @@ XRSOUND_API extern float psSoundVFactor;
 XRSOUND_API extern float psSoundVMusic;
 XRSOUND_API extern float psSoundVMusicFactor;
 XRSOUND_API extern float psSoundRolloff;
+XRSOUND_API extern float psSoundRoomRolloff;
 XRSOUND_API extern float psSoundOcclusionScale;
+
 XRSOUND_API extern Flags32 psSoundFlags;
 XRSOUND_API extern int psSoundTargets;
 XRSOUND_API extern float psSpeedOfSound;

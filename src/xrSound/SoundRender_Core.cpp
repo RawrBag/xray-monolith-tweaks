@@ -12,6 +12,8 @@ Flags32	psSoundFlags = { ss_Hardware };
 float	psSoundOcclusionScale = 0.5f;
 float	psSoundCull = 0.01f;
 float	psSoundRolloff = 0.75f;
+float	psSoundRoomRolloff = 0.75f;
+
 u32		psSoundModel = 0;
 float	psSoundVEffects = 1.0f;
 float	psSoundVFactor = 1.0f;
@@ -349,6 +351,7 @@ void CSoundRender_Core::play_no_feedback(ref_sound& S, CObject* O, u32 flags, fl
 		S._feedback()->switch_to_2D();
 
 	if (pos) S._feedback()->set_position(*pos);
+	if (pos) Msg("play_no_feedback: pos = %f,%f,%f", pos->x, pos->y, pos->z);
 	if (freq) S._feedback()->set_frequency(*freq);
 	if (range) S._feedback()->set_range((*range)[0], (*range)[1]);
 	if (vol) S._feedback()->set_volume(*vol);
@@ -363,7 +366,7 @@ void CSoundRender_Core::play_at_pos(ref_sound& S, CObject* O, const Fvector& pos
 	else i_play(&S, flags & sm_Looped, delay);
 
 	S._feedback()->set_position(pos);
-
+	Msg("play_at_pos: pos = %f,%f,%f", pos.x, pos.y, pos.z);
 	if (flags & sm_2D || S._handle()->channels_num() == 2)
 		S._feedback()->switch_to_2D();
 }
